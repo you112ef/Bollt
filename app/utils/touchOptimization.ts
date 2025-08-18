@@ -3,6 +3,8 @@
  * تحسينات اللمس والاستجابة للأزرار
  */
 
+import React from 'react';
+
 // تحسين استجابة اللمس للأزرار
 export const optimizeTouchResponse = () => {
   // إزالة تأخير 300ms على الأجهزة المحمولة

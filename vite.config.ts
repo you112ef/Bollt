@@ -93,16 +93,41 @@ export default defineConfig((config) => {
     },
     build: {
       target: 'esnext',
+      minify: 'esbuild',
+      cssMinify: true,
       rollupOptions: {
         output: {
           format: 'esm',
+          manualChunks: (id) => {
+            // تجنب تضمين React في manual chunks لأنه external
+            if (id.includes('@codemirror/')) {
+              return 'editor';
+            }
+            if (id.includes('@xterm/')) {
+              return 'terminal';
+            }
+            if (id.includes('@radix-ui/') || id.includes('@headlessui/')) {
+              return 'ui';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          },
         },
       },
       commonjsOptions: {
         transformMixedEsModules: true,
       },
+      chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
+      include: [
+        '@codemirror/view',
+        '@codemirror/state',
+        '@xterm/xterm',
+        'framer-motion',
+      ],
+      exclude: ['@webcontainer/api'],
       esbuildOptions: {
         define: {
           global: 'globalThis',
@@ -165,33 +190,6 @@ export default defineConfig((config) => {
           api: 'modern-compiler',
         },
       },
-    },
-    build: {
-      target: 'esnext',
-      minify: 'esbuild',
-      cssMinify: true,
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            editor: ['@codemirror/view', '@codemirror/state', '@codemirror/commands'],
-            terminal: ['@xterm/xterm', '@xterm/addon-fit', '@xterm/addon-web-links'],
-            ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@headlessui/react'],
-          },
-        },
-      },
-      chunkSizeWarningLimit: 1000,
-    },
-    optimizeDeps: {
-      include: [
-        'react',
-        'react-dom',
-        '@codemirror/view',
-        '@codemirror/state',
-        '@xterm/xterm',
-        'framer-motion',
-      ],
-      exclude: ['@webcontainer/api'],
     },
   };
 });
