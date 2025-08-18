@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ClientOnly } from 'remix-utils/client-only';
-import { useAppOptimization } from './lib/hooks/useAppOptimization';
 
 import reactToastifyStyles from 'react-toastify/dist/ReactToastify.css?url';
 import globalStyles from './styles/index.scss?url';
@@ -70,30 +69,10 @@ export const Head = createHead(() => (
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const theme = useStore(themeStore);
-  const { handleError } = useAppOptimization();
 
   useEffect(() => {
     document.querySelector('html')?.setAttribute('data-theme', theme);
   }, [theme]);
-
-  // معالج الأخطاء العام
-  useEffect(() => {
-    const errorHandler = (event: ErrorEvent) => {
-      handleError(new Error(event.message));
-    };
-    
-    const unhandledRejectionHandler = (event: PromiseRejectionEvent) => {
-      handleError(new Error(event.reason));
-    };
-    
-    window.addEventListener('error', errorHandler);
-    window.addEventListener('unhandledrejection', unhandledRejectionHandler);
-    
-    return () => {
-      window.removeEventListener('error', errorHandler);
-      window.removeEventListener('unhandledrejection', unhandledRejectionHandler);
-    };
-  }, [handleError]);
 
   return (
     <>
@@ -105,21 +84,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 import { logStore } from './lib/stores/logs';
-import { initializeAppEnhancements } from './utils/appEnhancements';
 
 export default function App() {
   const theme = useStore(themeStore);
 
   useEffect(() => {
-    // تطبيق التحسينات الشاملة
-    initializeAppEnhancements();
-    
-    logStore.logSystem('Application initialized with optimizations', {
+    logStore.logSystem('Application initialized', {
       theme,
       platform: navigator.platform,
       userAgent: navigator.userAgent,
       timestamp: new Date().toISOString(),
-      optimizations: 'enabled',
     });
   }, []);
 
