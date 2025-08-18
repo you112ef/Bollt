@@ -72,6 +72,8 @@ const pkg = getPackageJson();
 const gitInfo = getGitInfo();
 
 export default defineConfig((config) => {
+  const isProduction = config.mode === 'production';
+  
   return {
     define: {
       __COMMIT_HASH: JSON.stringify(gitInfo.commitHash),
@@ -95,6 +97,8 @@ export default defineConfig((config) => {
       target: 'esnext',
       minify: 'esbuild',
       cssMinify: true,
+      // Disable sourcemaps in production to reduce noise
+      sourcemap: isProduction ? false : true,
       rollupOptions: {
         output: {
           format: 'esm',
@@ -126,6 +130,7 @@ export default defineConfig((config) => {
         '@codemirror/state',
         '@xterm/xterm',
         'framer-motion',
+        'path-browserify',
       ],
       exclude: ['@webcontainer/api'],
       esbuildOptions: {
@@ -137,6 +142,8 @@ export default defineConfig((config) => {
     resolve: {
       alias: {
         buffer: 'vite-plugin-node-polyfills/polyfills/buffer',
+        // Fix for istextorbinary and other Node.js modules
+        path: 'path-browserify',
       },
     },
     plugins: [
@@ -148,7 +155,7 @@ export default defineConfig((config) => {
           global: true,
         },
         protocolImports: true,
-        exclude: ['child_process', 'fs', 'path'],
+        exclude: ['child_process', 'fs'],
       }),
       {
         name: 'buffer-polyfill',

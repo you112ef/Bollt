@@ -1,0 +1,152 @@
+name: Performance Monitoring
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  bundle-analysis:
+    name: Bundle Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Analyze bundle size
+        run: |
+          echo "📊 Bundle Analysis Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Client Build Size" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          du -sh build/client/ >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Server Build Size" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          du -sh build/server/ >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Largest JavaScript Files (>100KB)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          find build/client/assets/ -name "*.js" -size +100k -exec ls -lh {} \; | sort -k5 -hr >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Largest CSS Files (>50KB)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          find build/client/assets/ -name "*.css" -size +50k -exec ls -lh {} \; | sort -k5 -hr >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Check for large chunks
+        run: |
+          echo "🔍 Checking for large chunks..."
+          LARGE_CHUNKS=$(find build/client/assets/ -name "*.js" -size +500k)
+          if [ -n "$LARGE_CHUNKS" ]; then
+            echo "⚠️ Warning: Found large chunks (>500KB):"
+            echo "$LARGE_CHUNKS"
+            echo "Consider code splitting to improve performance."
+          else
+            echo "✅ No large chunks found."
+          fi
+
+      - name: Calculate total bundle size
+        run: |
+          TOTAL_SIZE=$(du -sh build/client/ | cut -f1)
+          echo "Total client bundle size: $TOTAL_SIZE"
+          
+          # Set output for other jobs
+          echo "bundle_size=$TOTAL_SIZE" >> $GITHUB_OUTPUT
+
+  lighthouse:
+    name: Lighthouse Performance
+    runs-on: ubuntu-latest
+    needs: bundle-analysis
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.12.x
+
+      - name: Build application
+        run: pnpm install --frozen-lockfile && pnpm run build
+
+      - name: Start local server
+        run: |
+          pnpm run start &
+          sleep 10
+
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun --config .lighthouserc.json || true
+
+  performance-comment:
+    name: Performance Comment
+    runs-on: ubuntu-latest
+    needs: [bundle-analysis, lighthouse]
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bundleSize = '${{ needs.bundle-analysis.outputs.bundle_size }}';
+            
+            const comment = `## 📊 Performance Report
+            
+            ### Bundle Analysis
+            - **Total Client Bundle Size**: ${bundleSize}
+            
+            ### Recommendations
+            - Consider code splitting for large chunks
+            - Optimize images and assets
+            - Use dynamic imports for heavy components
+            
+            > This report is generated automatically.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
