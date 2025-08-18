@@ -1,0 +1,245 @@
+/* ==============================
+   📱 Responsive CSS لمشروع bolt.diy
+   ============================== */
+
+/* الأساس - تحسينات عامة للشاشات الصغيرة */
+@media (max-width: 640px) {
+  /* تحسين النصوص */
+  html {
+    font-size: 14px;
+  }
+  
+  /* تحسين المساحات الداخلية */
+  .p-4, .p-6, .p-8 {
+    padding: 0.75rem !important;
+  }
+  
+  .px-4, .px-6, .px-8 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .py-4, .py-6, .py-8 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  
+  /* تحسين الهوامش */
+  .m-4, .m-6, .m-8 {
+    margin: 0.75rem !important;
+  }
+  
+  .mx-4, .mx-6, .mx-8 {
+    margin-left: 0.75rem !important;
+    margin-right: 0.75rem !important;
+  }
+  
+  .my-4, .my-6, .my-8 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* تحسين الأزرار */
+  button, .btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    min-height: 2.5rem;
+  }
+  
+  /* تحسين حقول الإدخال */
+  input, select, textarea {
+    padding: 0.5rem !important;
+    font-size: 0.875rem !important;
+    min-height: 2.5rem;
+  }
+  
+  /* تحسين العناوين */
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.25rem !important; }
+  h3 { font-size: 1.125rem !important; }
+  h4 { font-size: 1rem !important; }
+  
+  /* تحسين الأيقونات */
+  .icon, [class*="i-"] {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  /* للشاشات الصغيرة جداً */
+  html {
+    font-size: 13px;
+  }
+  
+  .p-4, .p-6, .p-8 {
+    padding: 0.5rem !important;
+  }
+  
+  .px-4, .px-6, .px-8 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .py-4, .py-6, .py-8 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  button, .btn {
+    padding: 0.375rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    min-height: 2.25rem;
+  }
+  
+  input, select, textarea {
+    padding: 0.375rem !important;
+    font-size: 0.75rem !important;
+    min-height: 2.25rem;
+  }
+  
+  h1 { font-size: 1.25rem !important; }
+  h2 { font-size: 1.125rem !important; }
+  h3 { font-size: 1rem !important; }
+  h4 { font-size: 0.875rem !important; }
+  
+  .icon, [class*="i-"] {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}
+
+/* تحسينات خاصة بمكونات bolt.diy */
+
+/* Workbench Panel */
+@media (max-width: 640px) {
+  .workbench-panel,
+  [class*="workbench"],
+  .editor-panel {
+    padding: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+}
+
+/* Chat Panel */
+@media (max-width: 640px) {
+  .chat-panel,
+  [class*="chat"] {
+    padding: 0.5rem !important;
+  }
+  
+  .chat-message {
+    padding: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Settings Panel */
+@media (max-width: 640px) {
+  .settings-panel,
+  [class*="settings"] {
+    padding: 0.75rem !important;
+  }
+}
+
+/* Modal/Dialog تحسينات */
+@media (max-width: 640px) {
+  .modal,
+  .dialog,
+  [role="dialog"],
+  [class*="modal"],
+  [class*="dialog"] {
+    width: 95% !important;
+    max-width: none !important;
+    margin: 0.5rem !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Sidebar تحسينات */
+@media (max-width: 640px) {
+  .sidebar,
+  [class*="sidebar"] {
+    width: 85% !important;
+    max-width: 280px !important;
+  }
+}
+
+/* File Tree تحسينات */
+@media (max-width: 640px) {
+  .file-tree,
+  [class*="file-tree"] {
+    font-size: 0.75rem !important;
+  }
+  
+  .file-tree-item {
+    padding: 0.25rem !important;
+    min-height: 1.75rem !important;
+  }
+}
+
+/* 🚀 تحسينات الأداء والتمرير السلس */
+* {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* تحسين شريط التمرير */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.6);
+}
+
+/* تحسين استجابة اللمس */
+button, [role="button"], .clickable {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s ease-in-out;
+}
+
+button:active, [role="button"]:active, .clickable:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease-in-out;
+}
+
+/* تحسين التركيز */
+button:focus-visible, [role="button"]:focus-visible {
+  outline: 2px solid #0EA5E9;
+  outline-offset: 2px;
+}
+
+/* تحسين الحركات */
+.animate-in {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+.animate-out {
+  animation-duration: 0.15s;
+  animation-timing-function: ease-in;
+}
+
+/* تحسين الظلال */
+.shadow-lg {
+  box-shadow: 0 10px 25px -3px rgba(14, 165, 233, 0.1), 0 4px 6px -2px rgba(14, 165, 233, 0.05);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
+}
+
