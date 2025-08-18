@@ -133,6 +133,22 @@ html, body {
   border-radius: 8px;
 }
 
+/* 🌐 عناصر عامة: بطاقات/أزرار/حقول/أيقونات */
+.card, .button, .input {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* شبكات عامة */
+.grid {
+  gap: 12px;
+}
+
 /* 📏 للشاشات الصغيرة جدًا */
 @media (max-width: 400px) {
   body {
@@ -183,6 +199,21 @@ html, body {
   .modal button, .popup-modal button, .dialog-box button {
     font-size: 0.8rem;
     padding: 5px 10px;
+  }
+
+  /* عناصر عامة على الشاشات الصغيرة */
+  .card, .button, .input {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
   }
 }
 
