@@ -178,3 +178,68 @@
   }
 }
 
+/* 🚀 تحسينات الأداء والتمرير السلس */
+* {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* تحسين شريط التمرير */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.6);
+}
+
+/* تحسين استجابة اللمس */
+button, [role="button"], .clickable {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s ease-in-out;
+}
+
+button:active, [role="button"]:active, .clickable:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease-in-out;
+}
+
+/* تحسين التركيز */
+button:focus-visible, [role="button"]:focus-visible {
+  outline: 2px solid #0EA5E9;
+  outline-offset: 2px;
+}
+
+/* تحسين الحركات */
+.animate-in {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+.animate-out {
+  animation-duration: 0.15s;
+  animation-timing-function: ease-in;
+}
+
+/* تحسين الظلال */
+.shadow-lg {
+  box-shadow: 0 10px 25px -3px rgba(14, 165, 233, 0.1), 0 4px 6px -2px rgba(14, 165, 233, 0.05);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
+}
+

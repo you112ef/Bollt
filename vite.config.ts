@@ -166,6 +166,33 @@ export default defineConfig((config) => {
         },
       },
     },
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            editor: ['@codemirror/view', '@codemirror/state', '@codemirror/commands'],
+            terminal: ['@xterm/xterm', '@xterm/addon-fit', '@xterm/addon-web-links'],
+            ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@headlessui/react'],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 1000,
+    },
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        '@codemirror/view',
+        '@codemirror/state',
+        '@xterm/xterm',
+        'framer-motion',
+      ],
+      exclude: ['@webcontainer/api'],
+    },
   };
 });
 
