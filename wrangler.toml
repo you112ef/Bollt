@@ -6,7 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 main = "functions/[[path]].ts"
 
 [build]
-command = "pnpm run build"
+command = "pnpm install --frozen-lockfile && pnpm run build"
 
 # Performance optimizations
 [site]

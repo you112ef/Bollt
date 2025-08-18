@@ -53,7 +53,7 @@
     "electron:build:linux": "rm -rf dist && pnpm electron:build:renderer && pnpm electron:build:deps && electron-builder --linux",
     "electron:build:dist": "rm -rf dist && pnpm electron:build:renderer && pnpm electron:build:deps && electron-builder --mwl"
   },
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@9.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/you112ef/Bollt.git"
@@ -77,7 +77,7 @@
   },
   "engines": {
     "node": ">=18.18.0",
-    "pnpm": ">=10.0.0"
+    "pnpm": ">=9.0.0"
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "1.0.6",

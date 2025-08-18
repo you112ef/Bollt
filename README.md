@@ -346,7 +346,11 @@ This project is configured for automatic deployment to Cloudflare Pages using Gi
 
 ### Prerequisites
 
-1. **Cloudflare Account Setup**:
+1. **Node.js and pnpm Setup**:
+   - Node.js >= 18.18.0
+   - pnpm >= 9.0.0 (compatible with Cloudflare Pages)
+
+2. **Cloudflare Account Setup**:
    - Create a Cloudflare account
    - Get your Account ID from the dashboard
    - Create a Pages project
@@ -391,6 +395,15 @@ Make sure to set these environment variables in Cloudflare Pages:
 
 - `NODE_ENV=production`
 - Any API keys or configuration needed by your application
+
+### Build Configuration
+
+The project is configured to work seamlessly with Cloudflare Pages:
+
+- **pnpm Version**: Compatible with pnpm 9.4.0 (Cloudflare Pages default)
+- **Node.js Version**: 18.x (Cloudflare Pages default)
+- **Build Command**: `pnpm install --frozen-lockfile && pnpm run build`
+- **Output Directory**: `build/`
 
 ### Monitoring & Analytics
 
@@ -494,6 +507,8 @@ Common issues and solutions:
 4. **Security Issues**: Run `pnpm run security:audit` to check for vulnerabilities
 5. **Dependency Issues**: Run `pnpm run deps:check` to check for outdated packages
 6. **Cache Issues**: Clear pnpm cache with `pnpm store prune`
+7. **pnpm Version Issues**: Ensure you're using pnpm >= 9.0.0
+8. **Cloudflare Pages Issues**: Check `.npmrc` and `wrangler.toml` configuration
 
 ---
 
