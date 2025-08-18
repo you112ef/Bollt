@@ -1,6 +1,43 @@
-#:schema node_modules/wrangler/config-schema.json
-name = "bolt"
+name = "bolt-ai"
+compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
-compatibility_date = "2025-03-28"
-pages_build_output_dir = "./build/client"
-send_metrics = false
+
+# Main entry point for Cloudflare Pages
+main = "functions/[[path]].ts"
+
+[build]
+command = "pnpm run build"
+
+# Performance optimizations
+[site]
+bucket = "./build/client"
+
+# Environment variables
+[vars]
+NODE_ENV = "production"
+
+[env.production]
+name = "bolt-ai-production"
+route = "bolt-ai.your-domain.com/*"
+zone_id = ""
+
+[env.staging]
+name = "bolt-ai-staging"
+route = "staging.bolt-ai.your-domain.com/*"
+zone_id = ""
+
+# KV namespaces (if needed)
+# [[kv_namespaces]]
+# binding = "CACHE"
+# id = "your-kv-namespace-id"
+# preview_id = "your-preview-kv-namespace-id"
+
+# Durable Objects (if needed)
+# [[durable_objects.bindings]]
+# name = "CHAT_ROOM"
+# class_name = "ChatRoom"
+
+# R2 buckets (if needed)
+# [[r2_buckets]]
+# binding = "ASSETS"
+# bucket_name = "bolt-ai-assets"
