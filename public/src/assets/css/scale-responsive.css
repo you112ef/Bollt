@@ -4,9 +4,21 @@
 
 /* القاعدة للشاشات الصغيرة */
 @media (max-width: 400px) {
+  /* تحسين تجربة أندرويد: إخفاء الوميض وتقليل التمرير الجانبي */
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body { overflow-x: hidden; }
+
+  /* تصغير شامل مع تعويض عرض لملء الشاشة */
   body {
-    transform: scale(0.85);
+    --android-scale: 0.85;
+    transform: scale(var(--android-scale));
     transform-origin: top center;
+    width: calc(100% / var(--android-scale));
+  }
+
+  /* حد أدنى لحجم اللمس */
+  button, input, select, textarea {
+    min-height: 44px;
   }
 }
 
