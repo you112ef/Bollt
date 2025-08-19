@@ -41,6 +41,8 @@ export const links: LinksFunction = () => [
   },
   // Ensure responsive.css is loaded last to override previous styles
   { rel: 'stylesheet', href: '/src/assets/css/responsive.css' },
+  // Apply global scale-down for small screens after responsive.css
+  { rel: 'stylesheet', href: '/src/assets/css/scale-responsive.css' },
 ];
 
 const inlineThemeCode = stripIndents`
