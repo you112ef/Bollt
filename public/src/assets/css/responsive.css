@@ -103,7 +103,7 @@ html, body {
 }
 
 /* 🔔 العناصر المنبثقة */
-.modal, .popup-modal, .dialog-box {
+[role="dialog"], .modal, .popup-modal, .dialog-box {
   width: 90%;
   max-width: 360px;
   padding: 14px;
@@ -112,20 +112,20 @@ html, body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.modal h2,
+[role="dialog"] h2, .modal h2,
 .popup-modal h2,
 .dialog-box h2 {
   font-size: 1rem;
   margin: 0 0 10px 0;
 }
 
-.modal p,
+[role="dialog"] p, .modal p,
 .popup-modal p,
 .dialog-box p {
   font-size: 0.85rem;
 }
 
-.modal button,
+[role="dialog"] button, .modal button,
 .popup-modal button,
 .dialog-box button {
   font-size: 0.85rem;
@@ -134,7 +134,7 @@ html, body {
 }
 
 /* 🌐 عناصر عامة: بطاقات/أزرار/حقول/أيقونات */
-.card, .button, .input {
+button, input, select, textarea, .card, .button, .input {
   padding: 10px 14px;
   font-size: 0.9rem;
 }
@@ -148,6 +148,10 @@ html, body {
 .grid {
   gap: 12px;
 }
+
+/* دعم تصغير العناوين الكبيرة في البطاقات */
+.text-2xl { font-size: 1.125rem; line-height: 1.5rem; }
+.p-6 { padding: 1rem; }
 
 /* 📏 للشاشات الصغيرة جدًا */
 @media (max-width: 400px) {
@@ -183,26 +187,26 @@ html, body {
     padding: 8px;
   }
 
-  .modal, .popup-modal, .dialog-box {
+  [role="dialog"], .modal, .popup-modal, .dialog-box {
     width: 95%;
     padding: 10px;
   }
 
-  .modal h2, .popup-modal h2, .dialog-box h2 {
+  [role="dialog"] h2, .modal h2, .popup-modal h2, .dialog-box h2 {
     font-size: 0.9rem;
   }
 
-  .modal p, .popup-modal p, .dialog-box p {
+  [role="dialog"] p, .modal p, .popup-modal p, .dialog-box p {
     font-size: 0.75rem;
   }
 
-  .modal button, .popup-modal button, .dialog-box button {
+  [role="dialog"] button, .modal button, .popup-modal button, .dialog-box button {
     font-size: 0.8rem;
     padding: 5px 10px;
   }
 
   /* عناصر عامة على الشاشات الصغيرة */
-  .card, .button, .input {
+  button, input, select, textarea, .card, .button, .input {
     padding: 6px 10px;
     font-size: 0.85rem;
   }
@@ -215,5 +219,9 @@ html, body {
   .grid {
     grid-template-columns: 1fr;
   }
+
+  /* مزيد من التصغير لعناوين البطاقات والمسافات */
+  .text-2xl { font-size: 1rem; line-height: 1.375rem; }
+  .p-6 { padding: 0.75rem; }
 }
 
