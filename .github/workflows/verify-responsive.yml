@@ -1,0 +1,22 @@
+name: Verify responsive setup
+
+on:
+  push:
+    branches: ["main"]
+  pull_request: {}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check responsive.css exists
+        run: |
+          test -f public/src/assets/css/responsive.css
+      - name: Check link is present in app/root.tsx
+        run: |
+          grep -R "/src/assets/css/responsive.css" app/root.tsx
+      - name: Check viewport meta present
+        run: |
+          grep -R "name=\"viewport\"" app/root.tsx
+
